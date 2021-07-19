@@ -1,11 +1,16 @@
 package it.prova.prima.spalla.data.api
 
 import it.prova.prima.spalla.data.vo.Country
+import it.prova.prima.spalla.data.vo.DetailCountry
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface CountryService {
 
-    @GET("all?fields=alpha2Code;name;region;")
+    @GET("all?fields=alpha2Code;name;region;capital;")
     suspend fun getCountries(): List<Country>
+
+    @GET("alpha/{code}")
+    suspend fun getDetail(@Path("code") code: String): DetailCountry
 
 }

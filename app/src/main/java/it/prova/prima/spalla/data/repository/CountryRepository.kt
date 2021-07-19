@@ -14,4 +14,8 @@ class CountryRepository(private val dispatcher: CoroutineDispatcher) : KoinCompo
         service.getCountries()
     }
 
+    suspend fun getDetail(code: String) = withContext(dispatcher) {
+        service.getDetail(code)
+    }
+
 }

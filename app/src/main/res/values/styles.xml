@@ -2,9 +2,25 @@
 <resources>
 
     <dimen name="margin_default_size">16dp</dimen>
+    <dimen name="rounded_default_size">16dp</dimen>
     <dimen name="margin_small_size">4dp</dimen>
     <dimen name="title_size">16sp</dimen>
     <dimen name="subtitle_size">14sp</dimen>
     <dimen name="image_size">48dp</dimen>
 
+    <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+    </style>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
 </resources>

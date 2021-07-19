@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import it.prova.prima.spalla.databinding.MainFragmentBinding
 import it.prova.prima.spalla.ui.main.controller.CountryController
 
@@ -15,7 +16,13 @@ class MainFragment : Fragment() {
 
     private val controller by lazy {
         CountryController {
-//NAVIGAZIONE
+
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToBottomSheetDetailDialogFragment(
+                    it
+                )
+            )
+
         }
     }
 

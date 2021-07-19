@@ -7,5 +7,28 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="it.prova.prima.spalla.ui.main.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_bottomSheetDetailDialogFragment"
+            app:destination="@id/bottomSheetDetailDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCountryFragment"
+        android:name="it.prova.prima.spalla.ui.detail.DetailCountryFragment"
+        android:label="DetailCountryFragment" >
+        <argument
+            android:name="code"
+            app:argType="string" />
+    </fragment>
+    <dialog
+        android:id="@+id/bottomSheetDetailDialogFragment"
+        android:name="it.prova.prima.spalla.ui.detail.BottomSheetDetailDialogFragment"
+        android:label="BottomSheetDetailDialogFragment" >
+        <action
+            android:id="@+id/action_bottomSheetDetailDialogFragment_to_detailCountryFragment"
+            app:destination="@id/detailCountryFragment" />
+        <argument
+            android:name="detail"
+            app:argType="it.prova.prima.spalla.data.vo.Country" />
+    </dialog>
 </navigation>
