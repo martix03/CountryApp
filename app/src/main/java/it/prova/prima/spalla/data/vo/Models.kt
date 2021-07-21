@@ -3,6 +3,7 @@ package it.prova.prima.spalla.data.vo
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.math.BigDecimal
 
 @Parcelize
 data class Country(
@@ -44,7 +45,7 @@ data class DetailCountry(
     @SerializedName("languages")
     val languages: List<Language>?,
     @SerializedName("latlng")
-    val latlng: List<Int>?,
+    val latlng: List<BigDecimal>?,
     @SerializedName("name")
     val name: String?,
     @SerializedName("nativeName")

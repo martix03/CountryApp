@@ -1,12 +1,12 @@
 package it.prova.prima.spalla.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import it.prova.prima.spalla.R
 import it.prova.prima.spalla.databinding.MainFragmentBinding
 import it.prova.prima.spalla.ui.main.controller.CountryController
 
@@ -35,10 +35,26 @@ class MainFragment : Fragment() {
         it.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.search) {
+            binding?.containerSearch?.visibility =
+                if (binding?.containerSearch?.isVisible == true) View.GONE else View.VISIBLE
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getListOfCountries()
         binding?.recycler?.adapter = controller
+
+        setHasOptionsMenu(true)
 
         observe()
     }

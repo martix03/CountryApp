@@ -2,4 +2,15 @@
     <string name="app_name">World\'s countries</string>
     <string name="capital">Capital: %1$s</string>
     <string name="region">Region: %1$s</string>
+    <string name="native_name">Native name</string>
+    <string name="country_language">Languages</string>
+    <string name="country_surface">Surface</string>
+    <string name="country_population">Total population</string>
+    <string name="country_borders">Borders</string>
+    <string name="country_timezones">Timezones</string>
+    <string name="country_currencies">Currencies</string>
+    <string name="hint_region">Insert the region</string>
+    <string name="hint_language">Insert the language</string>
+    <string name="region_select">Region</string>
+    <string name="language_select">Language</string>
 </resources>

@@ -20,13 +20,15 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default_size"
         android:layout_marginTop="@dimen/margin_default_size"
         android:layout_marginBottom="@dimen/margin_default_size"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/countryFlag"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,6 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textSize="@dimen/title_size"
             tools:text="ITALIA" />
 
@@ -44,6 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small_size"
             android:textColor="@color/grey"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textSize="@dimen/subtitle_size"
             tools:text="EUROPA" />
 

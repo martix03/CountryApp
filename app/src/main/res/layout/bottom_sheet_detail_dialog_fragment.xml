@@ -20,9 +20,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default_size"
         android:layout_marginTop="@dimen/margin_default_size"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="@dimen/margin_default_size"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/countryFlag"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -30,6 +33,8 @@
             android:id="@+id/countryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="@dimen/title_size"
             tools:text="ITALIA" />
@@ -39,6 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small_size"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/grey"
             android:textSize="@dimen/subtitle_size"
             tools:text="EUROPA" />
@@ -48,6 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small_size"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/grey"
             android:textSize="@dimen/subtitle_size"
             tools:text="CAPITALE" />
@@ -56,10 +65,11 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_forward"
         android:layout_marginEnd="@dimen/margin_default_size"
+        android:src="@drawable/ic_arrow_forward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -16,13 +16,11 @@ fun ImageView.load(url: String) {
 *
 *
 Bandiera
-mappa
-Nome completo
-Nome ufficiale
-Lingue ufficiali
-Capitale
-Superficie Totale
-Continente	Asia
+
+
+
+
+
 Confini	Iran, Pakistan, Turkmenistan, Uzbekistan, Tagikistan, Cina
 Fuso orario	UTC+4:30
 Valuta	Afghani

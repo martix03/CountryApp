@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="it.prova.prima.spalla.ui.main.MainFragment"
-        android:label="MainFragment" >
+        android:label="List of countries" >
         <action
             android:id="@+id/action_mainFragment_to_bottomSheetDetailDialogFragment"
             app:destination="@id/bottomSheetDetailDialogFragment" />
@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/detailCountryFragment"
         android:name="it.prova.prima.spalla.ui.detail.DetailCountryFragment"
-        android:label="DetailCountryFragment" >
+        android:label="Country detail" >
         <argument
             android:name="code"
             app:argType="string" />
