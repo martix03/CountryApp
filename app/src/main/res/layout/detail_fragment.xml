@@ -69,11 +69,24 @@
 
             <include
                 android:id="@+id/countryCurrencies"
-                layout="@layout/rowdetail"
-                android:layout_marginBottom="@dimen/margin_default_size" />
+                layout="@layout/rowdetail" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
 
+
+    <FrameLayout
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_white"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ data class Country(
     val capital: String?
 ): Parcelable
 
+@Parcelize
 data class DetailCountry(
     @SerializedName("alpha2Code")
     val alpha2Code: String?,
@@ -66,8 +67,9 @@ data class DetailCountry(
     val topLevelDomain: List<String>?,
     @SerializedName("translations")
     val translations: Map<String, String>?
-)
+): Parcelable
 
+@Parcelize
 data class Currency(
     @SerializedName("code")
     val code: String?,
@@ -75,8 +77,9 @@ data class Currency(
     val name: String?,
     @SerializedName("symbol")
     val symbol: String?
-)
+): Parcelable
 
+@Parcelize
 data class Language(
     @SerializedName("iso639_1")
     val iso6391: String?,
@@ -86,8 +89,9 @@ data class Language(
     val name: String?,
     @SerializedName("nativeName")
     val nativeName: String?
-)
+): Parcelable
 
+@Parcelize
 data class RegionalBloc(
     @SerializedName("acronym")
     val acronym: String?,
@@ -97,5 +101,5 @@ data class RegionalBloc(
     val otherAcronyms: List<String>?,
     @SerializedName("otherNames")
     val otherNames: List<String>?
-)
+): Parcelable
 

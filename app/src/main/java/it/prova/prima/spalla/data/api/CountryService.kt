@@ -13,4 +13,7 @@ interface CountryService {
     @GET("alpha/{code}")
     suspend fun getDetail(@Path("code") code: String): DetailCountry
 
+    @GET("region/{region}")
+    suspend fun searchForRegion(@Path("region") region: String): List<DetailCountry>
+
 }

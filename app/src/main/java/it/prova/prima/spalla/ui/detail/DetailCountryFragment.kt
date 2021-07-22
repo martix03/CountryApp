@@ -63,6 +63,10 @@ class DetailCountryFragment : Fragment() {
             binding?.countryCurrencies?.rowValue?.text = it.currencies?.joinToString(separator = " - ") { "${it.name} (${it.code})" }
         }
 
+        viewModel.loading.observe(viewLifecycleOwner) {
+            binding?.loader?.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
     }
 
     override fun onDestroyView() {

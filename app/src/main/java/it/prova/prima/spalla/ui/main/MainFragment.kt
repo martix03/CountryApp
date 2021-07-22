@@ -16,13 +16,11 @@ class MainFragment : Fragment() {
 
     private val controller by lazy {
         CountryController {
-
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToBottomSheetDetailDialogFragment(
                     it
                 )
             )
-
         }
     }
 
@@ -51,6 +49,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.getListOfCountries()
         binding?.recycler?.adapter = controller
 
@@ -61,7 +60,7 @@ class MainFragment : Fragment() {
 
     private fun observe() {
         viewModel.loading.observe(viewLifecycleOwner) {
-
+            binding?.loader?.visibility = if (it) View.VISIBLE else View.GONE
         }
 
         viewModel.error.observe(viewLifecycleOwner) {

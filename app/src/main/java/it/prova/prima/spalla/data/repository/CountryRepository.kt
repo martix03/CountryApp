@@ -18,4 +18,8 @@ class CountryRepository(private val dispatcher: CoroutineDispatcher) : KoinCompo
         service.getDetail(code)
     }
 
+    suspend fun searchForRegion(region: String) = withContext(dispatcher) {
+        service.searchForRegion(region)
+    }
+
 }
