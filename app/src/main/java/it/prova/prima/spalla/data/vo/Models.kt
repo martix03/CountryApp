@@ -14,7 +14,9 @@ data class Country(
     @SerializedName("region")
     val region: String?,
     @SerializedName("capital")
-    val capital: String?
+    val capital: String?,
+    @SerializedName("languages")
+    val languages: List<Language>?
 ): Parcelable
 
 @Parcelize
@@ -26,7 +28,7 @@ data class DetailCountry(
     @SerializedName("altSpellings")
     val altSpellings: List<String>?,
     @SerializedName("area")
-    val area: Int?,
+    val area: Double?,
     @SerializedName("borders")
     val borders: List<String>?,
     @SerializedName("callingCodes")

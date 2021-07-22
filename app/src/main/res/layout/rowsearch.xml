@@ -7,7 +7,6 @@
     android:minHeight="72dp"
     tools:context=".MainActivity">
 
-
     <TextView
         android:id="@+id/rowTitle"
         android:layout_width="wrap_content"
@@ -20,24 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="ITALIA" />
 
-    <TextView
-        android:id="@+id/rowValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="@dimen/margin_default_size"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:gravity="end"
-        android:textColor="@color/black"
-        android:textSize="@dimen/subtitle_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/rowTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="EUROPA" />
 
     <View
         android:id="@+id/separator"

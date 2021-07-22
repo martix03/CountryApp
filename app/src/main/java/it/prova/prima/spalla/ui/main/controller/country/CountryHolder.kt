@@ -1,4 +1,4 @@
-package it.prova.prima.spalla.ui.main.controller
+package it.prova.prima.spalla.ui.main.controller.country
 
 import androidx.recyclerview.widget.RecyclerView
 import it.prova.prima.spalla.data.api.getFlagUrl

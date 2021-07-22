@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface CountryService {
 
-    @GET("all?fields=alpha2Code;name;region;capital;")
+    @GET("all?fields=alpha2Code;name;region;capital;languages;")
     suspend fun getCountries(): List<Country>
 
     @GET("alpha/{code}")
@@ -15,5 +15,8 @@ interface CountryService {
 
     @GET("region/{region}")
     suspend fun searchForRegion(@Path("region") region: String): List<DetailCountry>
+
+    @GET("lang/{language}")
+    suspend fun searchForLanguage(@Path("language") language: String): List<DetailCountry>
 
 }

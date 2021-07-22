@@ -50,24 +50,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/searchRegion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:hint="@string/hint_region"
-            app:layout_constraintTop_toBottomOf="@+id/switchCompat"
-            tools:layout_editor_absoluteX="16dp" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintTop_toBottomOf="@+id/switchCompat" />
 
-        <EditText
+        <TextView
             android:id="@+id/searchLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:hint="@string/hint_language"
+            android:textColor="@color/black"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/switchCompat"
-            tools:layout_editor_absoluteX="16dp" />
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintTop_toBottomOf="@+id/switchCompat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

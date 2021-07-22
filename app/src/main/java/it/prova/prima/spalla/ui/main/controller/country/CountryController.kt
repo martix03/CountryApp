@@ -1,10 +1,11 @@
-package it.prova.prima.spalla.ui.main.controller
+package it.prova.prima.spalla.ui.main.controller.country
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import it.prova.prima.spalla.data.vo.Country
 import it.prova.prima.spalla.databinding.RowcountryBinding
+
 
 class CountryController(
     private val countryClick: CountryClickAction
@@ -25,8 +26,8 @@ class CountryController(
 
     override fun getItemCount(): Int = countryList.size
 
-    fun setData(serverData: List<Country>) {
-        countryList = serverData
+    fun setData(data: List<Country>) {
+        countryList = data
         notifyDataSetChanged()
     }
 }

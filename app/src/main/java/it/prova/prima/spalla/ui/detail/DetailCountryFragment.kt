@@ -53,14 +53,19 @@ class DetailCountryFragment : Fragment() {
             binding?.countryPopulation?.rowTitle?.text = getString(R.string.country_population)
             binding?.countryPopulation?.rowValue?.text = it.population?.toString()
 
+            if (it.borders?.isEmpty() == true)
+                binding?.countryBorders?.root?.visibility = View.GONE
             binding?.countryBorders?.rowTitle?.text = getString(R.string.country_borders)
-            binding?.countryBorders?.rowValue?.text = it.borders?.joinToString(separator = " - ") { it }
+            binding?.countryBorders?.rowValue?.text =
+                it.borders?.joinToString(separator = " - ") { it }
 
             binding?.countryTimezones?.rowTitle?.text = getString(R.string.country_timezones)
-            binding?.countryTimezones?.rowValue?.text = it.timezones?.joinToString(separator = " - ") { it }
+            binding?.countryTimezones?.rowValue?.text =
+                it.timezones?.joinToString(separator = " - ") { it }
 
             binding?.countryCurrencies?.rowTitle?.text = getString(R.string.country_currencies)
-            binding?.countryCurrencies?.rowValue?.text = it.currencies?.joinToString(separator = " - ") { "${it.name} (${it.code})" }
+            binding?.countryCurrencies?.rowValue?.text =
+                it.currencies?.joinToString(separator = " - ") { "${it.name} (${it.code})" }
         }
 
         viewModel.loading.observe(viewLifecycleOwner) {
