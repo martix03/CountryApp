@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.prova.prima.spalla.data.repository.CountryRepository
 import it.prova.prima.spalla.data.vo.DetailCountry
+import it.prova.prima.spalla.httpTryCatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -23,12 +24,20 @@ class DetailCountryViewModel(private val state: SavedStateHandle) : ViewModel(),
     fun getListOfCountries(code: String) {
         viewModelScope.launch {
             loading.value = true
-
-            val stateDetail = state.get<DetailCountry>(DETAILCOUNTRY)
-            if (stateDetail == null) {
-                state.set(DETAILCOUNTRY, repo.getDetail(code))
-            }
-
+            httpTryCatch(
+                onSuccess = {
+                    val stateDetail = state.get<DetailCountry>(DETAILCOUNTRY)
+                    if (stateDetail == null) {
+                        val response = repo.getDetail(code)
+                        if (response.isSuccessful)
+                            state.set(DETAILCOUNTRY, response.body())
+                        else
+                            error.value = response.errorBody()?.string()
+                    }
+                },
+                onError = {
+                    error.value = it
+                })
             loading.value = false
         }
     }

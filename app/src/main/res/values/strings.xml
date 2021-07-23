@@ -13,4 +13,5 @@
     <string name="hint_language">Insert the language</string>
     <string name="region_select">Region</string>
     <string name="language_select">Language</string>
+    <string name="errore_rete">Errore nel recupero dei dati. Controlla la connessione</string>
 </resources>

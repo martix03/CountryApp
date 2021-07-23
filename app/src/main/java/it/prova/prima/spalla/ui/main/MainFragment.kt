@@ -2,6 +2,7 @@ package it.prova.prima.spalla.ui.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -44,13 +45,8 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
-            if (binding?.containerSearch?.isVisible == true) {
-                binding?.containerSearch?.visibility = View.GONE
-                viewModel.getListOfCountries(true)
-                binding?.switchCompat?.isChecked = false
-            } else binding?.containerSearch?.visibility = View.VISIBLE
+            viewModel.saveSearchBar(binding?.containerSearch?.isVisible == false)
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -58,9 +54,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getListOfCountries()
+
         binding?.recycler?.adapter = controller
-
-
 
         binding?.searchRegion?.setOnClickListener {
             search().show(requireActivity().supportFragmentManager)
@@ -71,10 +66,12 @@ class MainFragment : Fragment() {
         }
 
         binding?.switchCompat?.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.getListOfCountries(true)
-            isSwitchChecked = isChecked
-            binding?.searchLanguage?.visibility = if (isChecked) View.VISIBLE else View.GONE
-            binding?.searchRegion?.visibility = if (!isChecked) View.VISIBLE else View.GONE
+            if (binding?.switchCompat?.isPressed == true) {
+                viewModel.saveSwitchState(isChecked)
+                viewModel.saveSearchStringState(null)
+                viewModel.getListOfCountries(true)
+                searchVisibility(isChecked)
+            }
         }
 
         setHasOptionsMenu(true)
@@ -91,10 +88,9 @@ class MainFragment : Fragment() {
                     .mapNotNull { it.name }
             else
                 listOfRegion.filter { it.startsWith(s, ignoreCase = true) }
-
-
         },
         onClick = {
+            viewModel.saveSearchStringState(it)
             if (isSwitchChecked) {
                 binding?.searchLanguage?.text = it
                 listOfLanguage.find { lang -> lang.name == it }?.iso6391?.let {
@@ -113,7 +109,7 @@ class MainFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         }
 
         viewModel.listOfCountries.observe(viewLifecycleOwner) {
@@ -127,6 +123,26 @@ class MainFragment : Fragment() {
         viewModel.listOfLanguages.observe(viewLifecycleOwner) {
             listOfLanguage = it
         }
+
+        viewModel.showSearchBar.observe(viewLifecycleOwner) {
+            isSwitchChecked = it.switchState ?: false
+
+            if (it.show) {
+                binding?.containerSearch?.visibility = View.VISIBLE
+                binding?.switchCompat?.isChecked = isSwitchChecked
+                binding?.searchLanguage?.text = if (isSwitchChecked) it.searchString else null
+                binding?.searchRegion?.text = if (!isSwitchChecked) it.searchString else null
+                searchVisibility(isSwitchChecked)
+            } else {
+                binding?.containerSearch?.visibility = View.GONE
+                viewModel.getListOfCountries(true)
+            }
+        }
+    }
+
+    private fun searchVisibility(isCheckedSwitch: Boolean) {
+        binding?.searchRegion?.visibility = if (!isCheckedSwitch) View.VISIBLE else View.GONE
+        binding?.searchLanguage?.visibility = if (isCheckedSwitch) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

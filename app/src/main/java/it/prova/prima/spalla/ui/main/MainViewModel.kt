@@ -1,5 +1,6 @@
 package it.prova.prima.spalla.ui.main
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import it.prova.prima.spalla.data.repository.CountryRepository
 import it.prova.prima.spalla.data.vo.Country
 import it.prova.prima.spalla.data.vo.Language
+import it.prova.prima.spalla.data.vo.StateOfSearch
+import it.prova.prima.spalla.httpTryCatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -21,25 +24,36 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel(), KoinComp
     val listOfCountries: MutableLiveData<List<Country>> = state.getLiveData(LISTCOUNTRIES)
     val listOfRegions: MutableLiveData<List<String>> = state.getLiveData(LISTREGIONS)
     val listOfLanguages: MutableLiveData<List<Language>> = state.getLiveData(LISTLANGUAGES)
+    val showSearchBar: MutableLiveData<StateOfSearch> = state.getLiveData(SHOWSEARCHBAR)
 
     fun getListOfCountries(refresh: Boolean = false) {
         viewModelScope.launch {
             loading.value = true
             val stateList = state.get<List<Country>>(LISTCOUNTRIES)
             if (stateList == null || refresh) {
-                val response = repo.getCountries()
-                state.apply {
-                    set(LISTCOUNTRIES, response)
-                    set(
-                        LISTREGIONS,
-                        response.map { it.region }.distinct().filter { !it.isNullOrEmpty() }
-                            .sortedBy { it })
-                    set(
-                        LISTLANGUAGES,
-                        response.filter { it.languages != null }.flatMap { it.languages!! }
-                            .distinct().sortedBy { it.name })
-                }
-
+                httpTryCatch(
+                    onSuccess = {
+                        val response = repo.getCountries()
+                        if (response.isSuccessful) {
+                            state.apply {
+                                set(LISTCOUNTRIES, response.body())
+                                set(
+                                    LISTREGIONS,
+                                    response.body()?.map { it.region }?.distinct()
+                                        ?.filter { !it.isNullOrEmpty() }?.sortedBy { it })
+                                set(
+                                    LISTLANGUAGES,
+                                    response.body()?.filter { it.languages != null }
+                                        ?.flatMap { it.languages!! }?.distinct()
+                                        ?.sortedBy { it.name })
+                            }
+                        } else {
+                            error.value = response.errorBody()?.string()
+                        }
+                    },
+                    onError = {
+                        error.value = it
+                    })
             }
             loading.value = false
         }
@@ -48,10 +62,29 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel(), KoinComp
     fun searchForRegion(region: String) {
         viewModelScope.launch {
             loading.value = true
+            httpTryCatch(
+                onSuccess = {
+                    val response = repo.searchForRegion(region.lowercase())
+                    if (response.isSuccessful) {
+                        val listRegions = response.body()
+                            ?.map {
+                                Country(
+                                    it.alpha2Code,
+                                    it.name,
+                                    it.region,
+                                    it.capital,
+                                    it.languages
+                                )
+                            }
+                        state.set(LISTCOUNTRIES, listRegions)
+                    } else {
+                        error.value = response.errorBody()?.string()
+                    }
+                },
+                onError = {
+                    error.value = it
+                })
 
-            val response = repo.searchForRegion(region.lowercase())
-                .map { Country(it.alpha2Code, it.name, it.region, it.capital, it.languages) }
-            state.set(LISTCOUNTRIES, response)
 
             loading.value = false
         }
@@ -60,18 +93,53 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel(), KoinComp
     fun searchForLanguage(language: String) {
         viewModelScope.launch {
             loading.value = true
-
-            val response = repo.searchForLanguage(language)
-                .map { Country(it.alpha2Code, it.name, it.region, it.capital, it.languages) }
-            state.set(LISTCOUNTRIES, response)
+            httpTryCatch(
+                onSuccess = {
+                    val response = repo.searchForLanguage(language)
+                    if (response.isSuccessful) {
+                        val listLanguages = response.body()
+                            ?.map {
+                                Country(
+                                    it.alpha2Code,
+                                    it.name,
+                                    it.region,
+                                    it.capital,
+                                    it.languages
+                                )
+                            }
+                        state.set(LISTCOUNTRIES, listLanguages)
+                    } else {
+                        error.value = response.errorBody()?.string()
+                    }
+                },
+                onError = {
+                    error.value = it
+                })
 
             loading.value = false
         }
     }
 
+    fun saveSearchBar(show: Boolean) {
+        state.set(SHOWSEARCHBAR, StateOfSearch(show))
+    }
+
+    fun saveSwitchState(isChecked: Boolean) {
+        state.set(SHOWSEARCHBAR, state.get<StateOfSearch>(SHOWSEARCHBAR)?.apply {
+            switchState = isChecked
+        })
+    }
+    fun saveSearchStringState(search: String?) {
+        state.set(SHOWSEARCHBAR, state.get<StateOfSearch>(SHOWSEARCHBAR)?.apply {
+            searchString =  search
+        })
+    }
+
+
     companion object {
         const val LISTCOUNTRIES = "LISTCOUNTRIES"
         const val LISTREGIONS = "LISTREGIONS"
         const val LISTLANGUAGES = "LISTLANGUAGES"
+        const val SHOWSEARCHBAR = "SHOWSEARCHBAR"
     }
 }
