@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -55,6 +56,9 @@ class SearchPopup(
             addTextChangedListener {
                 it?.toString()?.let { s ->
                     val newList = onTextChange(s)
+                    if (newList.isEmpty())
+                        Toast.makeText(context, getString(R.string.no_data), Toast.LENGTH_LONG)
+                            .show()
                     controller.setData(newList)
                 }
 

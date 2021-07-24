@@ -17,7 +17,7 @@ suspend fun httpTryCatch(onSuccess: suspend () -> Unit, onError: (String) -> Uni
     try {
         onSuccess()
     } catch (e: UnknownHostException) {
-        onError(context.getString(R.string.errore_rete))
+        onError(context.getString(R.string.network_error))
     } catch (t: Throwable) {
         onError(t.message ?: "")
     }

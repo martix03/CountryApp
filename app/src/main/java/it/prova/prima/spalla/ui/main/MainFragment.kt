@@ -97,6 +97,13 @@ class MainFragment : Fragment() {
         },
         onClick = {
             viewModel.saveSearchStringState(it)
+            if (isSwitchChecked) {
+                listOfLanguage.find { lang -> lang.name == it }?.iso6391?.let {
+                    viewModel.searchForLanguage(it)
+                }
+            } else {
+                viewModel.searchForRegion(it)
+            }
         }
     )
 
