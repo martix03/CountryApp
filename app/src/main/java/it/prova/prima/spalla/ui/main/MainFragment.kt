@@ -79,27 +79,24 @@ class MainFragment : Fragment() {
         observe()
     }
 
+    fun filterLanguage(language: String, list: List<Language>): List<String> =
+        list.filter { it.name?.startsWith(language, ignoreCase = true) == true }
+            .mapNotNull { it.name }
+
+    fun filterRegion(region: String, list: List<String>): List<String> =
+        list.filter { it.startsWith(region, ignoreCase = true) }
+
     private fun search() = SearchPopup(
         labelTitle = getString(if (isSwitchChecked) R.string.language_select else R.string.region_select),
         hintText = getString(if (isSwitchChecked) R.string.hint_language else R.string.hint_region),
         onTextChange = { s ->
             if (isSwitchChecked)
-                listOfLanguage.filter { it.name?.startsWith(s, ignoreCase = true) == true }
-                    .mapNotNull { it.name }
+                filterLanguage(s, listOfLanguage)
             else
-                listOfRegion.filter { it.startsWith(s, ignoreCase = true) }
+                filterRegion(s, listOfRegion)
         },
         onClick = {
             viewModel.saveSearchStringState(it)
-            if (isSwitchChecked) {
-                binding?.searchLanguage?.text = it
-                listOfLanguage.find { lang -> lang.name == it }?.iso6391?.let {
-                    viewModel.searchForLanguage(it)
-                }
-            } else {
-                binding?.searchRegion?.text = it
-                viewModel.searchForRegion(it)
-            }
         }
     )
 

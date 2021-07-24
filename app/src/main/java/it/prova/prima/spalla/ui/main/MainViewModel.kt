@@ -1,6 +1,5 @@
 package it.prova.prima.spalla.ui.main
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -26,6 +25,15 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel(), KoinComp
     val listOfLanguages: MutableLiveData<List<Language>> = state.getLiveData(LISTLANGUAGES)
     val showSearchBar: MutableLiveData<StateOfSearch> = state.getLiveData(SHOWSEARCHBAR)
 
+    fun filterResponseRegion(list: List<Country>?): List<String?>? =
+        list?.map { it.region }?.distinct()
+            ?.filter { !it.isNullOrEmpty() }?.sortedBy { it }
+
+    fun filterResponseLanguage(list: List<Country>?): List<Language>? =
+        list?.filter { it.languages != null }
+            ?.flatMap { it.languages!! }?.distinct()
+            ?.sortedBy { it.name }
+
     fun getListOfCountries(refresh: Boolean = false) {
         viewModelScope.launch {
             loading.value = true
@@ -39,13 +47,12 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel(), KoinComp
                                 set(LISTCOUNTRIES, response.body())
                                 set(
                                     LISTREGIONS,
-                                    response.body()?.map { it.region }?.distinct()
-                                        ?.filter { !it.isNullOrEmpty() }?.sortedBy { it })
+                                    filterResponseRegion(response.body())
+                                )
                                 set(
                                     LISTLANGUAGES,
-                                    response.body()?.filter { it.languages != null }
-                                        ?.flatMap { it.languages!! }?.distinct()
-                                        ?.sortedBy { it.name })
+                                    filterResponseLanguage(response.body())
+                                )
                             }
                         } else {
                             error.value = response.errorBody()?.string()
@@ -129,9 +136,10 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel(), KoinComp
             switchState = isChecked
         })
     }
+
     fun saveSearchStringState(search: String?) {
         state.set(SHOWSEARCHBAR, state.get<StateOfSearch>(SHOWSEARCHBAR)?.apply {
-            searchString =  search
+            searchString = search
         })
     }
 
